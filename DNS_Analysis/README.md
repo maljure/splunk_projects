@@ -1,8 +1,8 @@
 # Part 01 — DNS Log Analysis
 
-**Objective:** Ingest Zeek DNS logs into Splunk, extract usable fields, and hunt for evidence of reconnaissance, command-and-control, or data exfiltration over DNS.
+**Objective:** Ingest DNS log into Splunk, extract usable fields, and hunt for evidence of reconnaissance, command-and-control, or data exfiltration over DNS (anything malicious).
 
-**Dataset:** `dns.log` (Zeek/Bro format) from the MACCDC 2012 capture
+**Dataset:** `dns.log` from the MACCDC 2012 capture
 **Index:** `dns_logs`  |  **Sourcetype:** `dns`
 
 ---
@@ -14,7 +14,7 @@ DNS is one of the most under-monitored protocols on most networks. It is almost 
 - **Reconnaissance** — mapping internal hosts via reverse lookups before choosing targets
 - **Covert channels** — encoding stolen data or C2 instructions into subdomain labels, where it leaves the network disguised as ordinary name resolution
 
-Both showed up in this dataset.
+Both showed up in this dataset. You can check the screenshots section to see all forms of malicious activity.
 
 ---
 
@@ -22,13 +22,13 @@ Both showed up in this dataset.
 
 ### 1. Ingestion
 
-The log was uploaded via **Settings → Add Data → Upload**, assigned a custom sourcetype (`dns`) and a dedicated index (`dns_logs`).
+The log was uploaded to Splunk and personally assigned a sourcetype and index.
 
 **Problem encountered:** Splunk indexed each line as a single unparsed blob. Every event showed only `_time` and `_raw`, so no field-based searching was possible.
 
 **Root cause:** Zeek logs are tab-delimited with no header Splunk recognizes automatically.
 
-**Fix:** Defined a search-time field extraction mapping the Zeek DNS schema to named fields.
+**Fix:** Defined a search-time field extraction mapping the DNS schema to named fields by using the config files `transform.conf` and `props.conf`.
 
 `transforms.conf`:
 ```ini
@@ -48,9 +48,7 @@ MAX_TIMESTAMP_LOOKAHEAD = 25
 REPORT-zeek_dns = zeek_dns_fields
 ```
 
-Verified with `splunk btool props list dns --debug` and by confirming the delimiter was a literal tab using `cat -A dns.log`.
-
-📷 `screenshots/01-fields-extracted.png`
+📷 `screenshots/fields_extracted.png`
 
 ---
 
@@ -62,7 +60,7 @@ index=dns_logs sourcetype=dns
 
 Time range set to **All time** (the dataset is from 2012; default ranges return nothing).
 
-📷 `screenshots/02-all-events.png`
+📷 `screenshots/all_events.png`
 
 ---
 
@@ -81,7 +79,7 @@ The initial output was dominated by protocol noise, which had to be characterize
 | `*.in-addr.arpa` | High | Reverse DNS lookups — investigated separately below |
 | `0-jf-w.channel.facebook.com` | 1,209 | Legitimate Facebook chat CDN |
 
-📷 `screenshots/03-stats-by-fqdn.png`
+📷 `screenshots/stats_by_fqdn.png`
 
 ---
 
@@ -101,7 +99,7 @@ index=dns_logs sourcetype=dns
 | top limit=25 fqdn
 ```
 
-📷 `screenshots/04-top-fqdn-src.png`
+📷 `screenshots/top_fqdn_src.png`
 
 ---
 
@@ -117,7 +115,7 @@ index=dns_logs sourcetype=dns
 | sort - domain_length
 ```
 
-📷 `screenshots/05-long-domains.png`
+📷 `screenshots/long_domains.png`
 
 ---
 
