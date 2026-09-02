@@ -1,4 +1,4 @@
-# Part 01 — DNS Log Analysis
+# DNS Log Analysis
 
 **Objective:** Ingest DNS log into Splunk, extract usable fields, and hunt for evidence of reconnaissance, command-and-control, or data exfiltration over DNS (anything malicious).
 
@@ -60,7 +60,7 @@ index=dns_logs sourcetype=dns
 
 Time range set to **All time** (the dataset is from 2012; default ranges return nothing).
 
-📷 `screenshots/all_events.png`
+📷 `screenshots/`[all-events.png](screenshots/all-events.png)![all-events.png](screenshots/all-events.png)
 
 ---
 
@@ -79,7 +79,7 @@ The initial output was dominated by protocol noise, which had to be characterize
 | `*.in-addr.arpa` | High | Reverse DNS lookups — investigated separately below |
 | `0-jf-w.channel.facebook.com` | 1,209 | Legitimate Facebook chat CDN |
 
-📷 `screenshots/stats_by_fqdn.png`
+📷 `screenshots/`[stats-by-fqdn.png](screenshots/stats-by-fqdn.png)![stats-by-fqdn.png](screenshots/stats-by-fqdn.png)
 
 ---
 
