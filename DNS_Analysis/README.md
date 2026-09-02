@@ -48,7 +48,7 @@ MAX_TIMESTAMP_LOOKAHEAD = 25
 REPORT-zeek_dns = zeek_dns_fields
 ```
 
-📷 `screenshots/field-extracted.png`![fields-extracted.png](screenshots/field-extracted.png)
+📷 `screenshots/`[field-extracted.png](screenshots/field-extracted.png)![fields-extracted.png](screenshots/field-extracted.png)
 
 ---
 
