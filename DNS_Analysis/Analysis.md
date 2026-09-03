@@ -195,8 +195,6 @@ Additionally, `192.168.202.79` and `192.168.202.94` queried `nmap6.asn.cymru.com
 
 **The correlation:** hosts `.110`, `.138`, and `.140` appear at the top of *both* lists. Reverse-lookup enumeration and vulnerability-scanner traffic from the same hosts is a coherent reconnaissance phase, not coincidence.
 
-**MITRE ATT&CK:** T1046 (Network Service Discovery) · T1590 (Gather Victim Network Information)
-
 ---
 
 ### 🟢 Finding 3 — Anomalies investigated and ruled out
