@@ -238,9 +238,3 @@ A cluster of hosts on the `192.168.202.0/24` subnet conducted network reconnaiss
 - **Hunt for characteristics, not signatures.** Searching for known-bad domains only finds what is already blocked. Searching for *structural properties* — label length, entropy, lookup breadth — finds things no blocklist has yet.
 - **Corroborate before concluding.** The recon finding is credible because two independent methods pointed at the same hosts.
 - **Document the false positives.** They demonstrate judgment more clearly than the true positives do.
-
-## Next Steps
-
-- Correlate `192.168.204.71` against HTTP and connection logs (Part 02) to establish initial access
-- Build a scheduled alert for DNS labels exceeding 50 characters, with an allowlist for known vendor services
-- Add Shannon entropy scoring to reduce reliance on length alone
