@@ -115,7 +115,7 @@ index=dns_logs sourcetype=dns
 | sort - domain_length
 ```
 
-📷 `screenshots/`[long-domain.png](screenshots/long-domain.png)![long-domain.png](screenshots/long-domain.png)
+📷 `screenshots/`[long-domains.png](screenshots/long-domains.png)![long-domains.png](screenshots/long-domains.png)
 
 ---
 
