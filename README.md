@@ -1,6 +1,6 @@
 # Splunk SIEM Log Analysis Lab
 
-A hands-on security analysis lab using Splunk Enterprise to investigate network log data across multiple protocols. Each part focuses on a different log source, walking through data ingestion, field extraction, anomaly detection, and investigative findings.
+A hands-on security analysis lab using Splunk to investigate network log data across multiple protocols. Each part focuses on a different log source, walking through data ingestion, field extraction, anomaly detection, and investigative findings.
 
 > **Note:** This is a learning lab built on publicly available sample datasets. No live or production environments were involved.
 
