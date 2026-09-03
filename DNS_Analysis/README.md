@@ -99,7 +99,7 @@ index=dns_logs sourcetype=dns
 | top limit=25 fqdn
 ```
 
-📷 `screenshots/top_fqdn_src.png`
+📷 `screenshots/`[top-fqdn.png](screenshots/top-fqdn.png)![top-fqdn.png](screenshots/top-fqdn.png)
 
 ---
 
@@ -115,7 +115,7 @@ index=dns_logs sourcetype=dns
 | sort - domain_length
 ```
 
-📷 `screenshots/long_domains.png`
+📷 `screenshots/`[long-domain.png](screenshots/long-domain.png)![long-domain.png](screenshots/long-domain.png)
 
 ---
 
