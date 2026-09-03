@@ -103,7 +103,7 @@ index=dns_logs sourcetype=dns
 | top limit=25 fqdn
 ```
 
-📷 `screenshots/`[top-fqdn.png](screenshots/top-fqdn.png)![top-fqdn.png](screenshots/top-fqdn.png)
+📷 `screenshots/`[top-fqdn-src.png](screenshots/top-fqdn-src.png)![top-fqdn-src.png](screenshots/top-fqdn-src.png)
 
 ---
 
