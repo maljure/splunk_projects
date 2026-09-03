@@ -72,12 +72,16 @@ index=dns_logs sourcetype=dns | stats count by fqdn | sort - count
 
 The initial output was dominated by protocol noise, which had to be characterized before anything useful could be seen:
 
-| Pattern | Volume | Assessment |
+| Domain / Pattern | Count | Assessment |
 |---|---|---|
-| `*\x00\x00...` | 10,181 | NetBIOS wildcard queries (port 137), not true DNS |
+| `*\x00\x00\x00...` | 10,181 | NetBIOS wildcard name queries (port 137) — Windows name resolution, not true DNS |
+| `teredo.ipv6.microsoft.com` | | Teredo IPv6 tunneling service — default Windows behavior, benign |
+| `tools.google.com` | | Google software update checks (Chrome, Earth, etc.) — benign |
+| `www.apple.com` | | Apple captive-portal / connectivity check — benign |
+| `safebrowsing.clients.google.com` | | Chrome Safe Browsing blocklist updates — benign |
 | `-` and `(empty)` | ~5,600 | Zeek null placeholders / response-only records |
-| `*.in-addr.arpa` | High | Reverse DNS lookups — investigated separately below |
-| `0-jf-w.channel.facebook.com` | 1,209 | Legitimate Facebook chat CDN |
+| `*.in-addr.arpa` | High | Reverse DNS lookups — investigated separately, see Finding 2 |
+| `0-jf-w.channel.facebook.com` | 1,209 | Facebook chat CDN — benign |
 
 📷 `screenshots/`[stats-by-fqdn.png](screenshots/stats-by-fqdn.png)![stats-by-fqdn.png](screenshots/stats-by-fqdn.png)
 
