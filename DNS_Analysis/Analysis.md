@@ -233,8 +233,7 @@ A cluster of hosts on the `192.168.202.0/24` subnet conducted network reconnaiss
 
 ## Lessons Learned
 
-- **Field extraction is the real work.** Raw logs are useless until parsed. Understanding the Zeek schema and Splunk's `props.conf`/`transforms.conf` model was the largest time investment and the most transferable skill.
-- **Set the time range.** Sample datasets have historical timestamps; the default "Last 24 hours" returns zero results and looks like a failed ingest.
+- **Field extraction is the real work.** Raw logs are useless until parsed. Understanding the Zeek schema and Splunk's `props.conf`/`transforms.conf` model was the largest time investment and the most transferable skill. It was very important to understanding the logs more and getting to the real meat of the lab.
 - **Hunt for characteristics, not signatures.** Searching for known-bad domains only finds what is already blocked. Searching for *structural properties* — label length, entropy, lookup breadth — finds things no blocklist has yet.
 - **Corroborate before concluding.** The recon finding is credible because two independent methods pointed at the same hosts.
 - **Document the false positives.** They demonstrate judgment more clearly than the true positives do.
