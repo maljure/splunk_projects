@@ -23,7 +23,7 @@ The MACCDC dataset is a capture from a live red team vs. blue team competition, 
 
 | # | Log Source | Focus | Status |
 |---|---|---|---|
-| 01 | [DNS](./DNS_Analysis/) | Tunneling, exfiltration, reverse-DNS recon | ✅ Complete |
+| 01 | [DNS](./DNS_Analysis/Analysis.md) | Tunneling, exfiltration, reverse-DNS recon | ✅ Complete |
 | 02 | HTTP | Web attacks, suspicious user agents, C2 over HTTP | 🔜 Planned |
 | 03 | FTP | Credential use, file transfers, anonymous access | 🔜 Planned |
 | 04 | SSH | Brute force, lateral movement | 🔜 Planned |
