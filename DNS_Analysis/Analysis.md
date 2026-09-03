@@ -146,8 +146,6 @@ g/kfgaabadc3rky0mkrcntjgothererdrjm0m0uxmue5mem0ndyzneq0oujfqtk.=auth.rssfeeds.c
 - The parent domain is chosen to look innocuous (an RSS feed service) to survive casual log review.
 - **`192.168.204.71` was the only host in the dataset generating this traffic**, and it sits on a different subnet from the reconnaissance cluster in Finding 2.
 
-**MITRE ATT&CK:** T1071.004 (Application Layer Protocol: DNS) · T1048.003 (Exfiltration Over Alternative Protocol)
-
 **Recommended action:** Isolate the host, capture memory, identify the process making the queries, and block `rssfeeds.com` at the resolver. Review what data the host had access to.
 
 ---
