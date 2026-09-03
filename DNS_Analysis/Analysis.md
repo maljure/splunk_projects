@@ -74,14 +74,14 @@ The initial output was dominated by protocol noise, which had to be characterize
 
 | Domain / Pattern | Count | Assessment |
 |---|---|---|
-| `*\x00\x00\x00...` | 10,181 | NetBIOS wildcard name queries (port 137) — Windows name resolution, not true DNS |
-| `teredo.ipv6.microsoft.com` | | Teredo IPv6 tunneling service — default Windows behavior, benign |
-| `tools.google.com` | | Google software update checks (Chrome, Earth, etc.) — benign |
-| `www.apple.com` | | Apple captive-portal / connectivity check — benign |
+| `*\x00\x00\x00...` | 10000+ | NetBIOS wildcard name queries (port 137) — Windows name resolution, not true DNS |
+| `teredo.ipv6.microsoft.com` | 39000+ | Teredo IPv6 tunneling service — default Windows behavior, benign |
+| `tools.google.com` | 14000+ | Google software update checks (Chrome, Earth, etc.) — benign |
+| `www.apple.com` | 13000+ | Apple captive-portal / connectivity check — benign |
 | `safebrowsing.clients.google.com` | | Chrome Safe Browsing blocklist updates — benign |
 | `-` and `(empty)` | ~5,600 | Zeek null placeholders / response-only records |
-| `*.in-addr.arpa` | High | Reverse DNS lookups — investigated separately, see Finding 2 |
-| `0-jf-w.channel.facebook.com` | 1,209 | Facebook chat CDN — benign |
+| `*.in-addr.arpa` | 5000+ | Reverse DNS lookups — investigated separately, see Finding 2 |
+| `0-jf-w.channel.facebook.com` | 1000+ | Facebook chat CDN — benign |
 
 📷 `screenshots/`[stats-by-fqdn.png](screenshots/stats-by-fqdn.png)![stats-by-fqdn.png](screenshots/stats-by-fqdn.png)
 
