@@ -107,7 +107,7 @@ index=dns_logs sourcetype=dns
 
 ---
 
-### 5. High-entropy domain hunt
+### 5. Long domain check
 
 Rather than searching for known-bad domains (which only finds what is already on a blocklist), this looks for the *structural characteristic* of tunneling — abnormally long domain names:
 
