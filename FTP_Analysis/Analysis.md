@@ -83,11 +83,9 @@ index=ftp_logs sourcetype=ftp_zeek | stats count by command | sort - count
 |---|---|---|
 | `STOR` | Upload file | 1,353 attempts — all denied, see Finding 1 |
 | `RETR` | Download file | 112 — includes the successful exfiltration in Finding 2 |
-| `APPE` | Append to file | 72 — exploitation attempts, see Finding 1 |
+| `APPE` | Append to file | 72 |
 | `DELE` | Delete file | Destructive intent, all denied |
 | `PASV` / `PORT` | Data channel setup | Protocol overhead |
-
-An important observation: **`APPE` was the least-used command in the dataset**, at roughly 1% of events. Rarity is not the same as irrelevance. Common commands are noise an analyst has to filter through; a command that almost never appears legitimately and carries a shellcode payload when it does is close to an ideal detection rule — high signal, low volume. Alerting on `RETR` would be useless. Alerting on `APPE` would not.
 
 📷 `screenshots/command-stats.png`
 
