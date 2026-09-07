@@ -61,8 +61,6 @@ MAX_DAYS_AGO = 10951
 REPORT-zeek_ftp = zeek_ftp_fields
 ```
 
-`CHARSET = LATIN-1` matters here specifically: several events contain raw binary shellcode, and UTF-8 parsing can mangle or drop them.
-
 📷 `screenshots/field-extracted.png`
 
 ### 2. Baseline — all events
