@@ -61,8 +61,6 @@ MAX_DAYS_AGO = 10951
 REPORT-zeek_ftp = zeek_ftp_fields
 ```
 
-📷 `screenshots/field-extracted.png`
-
 ### 2. Baseline — all events
 
 ```
@@ -71,7 +69,7 @@ index=ftp_logs sourcetype=ftp_zeek
 
 Time range set to **All time**. Note that with `MAX_DAYS_AGO` corrected, the timeline is now usable — before the fix, all 5,796 events stacked into a single millisecond and every time-based query was meaningless.
 
-📷 `screenshots/all-events.png`
+📷 `screenshots/`[all-events.png](screenshots/all-events.png)![all-events.png](screenshots/all-events.png)
 
 ### 3. Command distribution
 
