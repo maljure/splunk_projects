@@ -85,7 +85,7 @@ index=ftp_logs sourcetype=ftp_zeek | stats count by command | sort - count
 | `DELE` | Delete file | Destructive intent, all denied |
 | `PASV` / `PORT` | Data channel setup | Protocol overhead |
 
-📷 `screenshots/command-stats.png`
+📷 `screenshots/`[command-stats.png](screenshots/command-stats.png)![command-stats.png](screenshots/command-stats.png)
 
 ### 4. Transfer outcomes
 
@@ -106,7 +106,7 @@ The result reframed the entire dataset. All 1,353 `STOR` operations returned **5
 
 The `file_size` field corroborated this independently — it was blank on every `STOR` and `APPE` event, because Zeek populates it from the server's completion response, and no completion ever occurred.
 
-📷 `screenshots/reply-codes.png`
+📷 `screenshots/`[reply-codes.png](screenshots/reply-codes.png)![reply-codes.png](screenshots/reply-codes.png)
 
 ### 5. Client fingerprinting via the password field
 
@@ -129,7 +129,7 @@ index=ftp_logs sourcetype=ftp_zeek | stats count by user, password | sort - coun
 
 `mozila@example.com` is worth pausing on. Genuine Firefox sends `mozilla@example.com` with two L's. A single missing character means this is a tool impersonating a browser and getting it slightly wrong — an unforced error, and a free detection opportunity for anyone who bothers to check.
 
-📷 `screenshots/password-fingerprints.png`
+📷 `screenshots/`[password-fingerprints.png](screenshots/password-fingerprints.png)![password-fingerprints.png](screenshots/password-fingerprints.png)
 
 ---
 
