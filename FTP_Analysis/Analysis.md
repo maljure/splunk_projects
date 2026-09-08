@@ -161,7 +161,7 @@ APPE ftp://192.168.23.103/./\x83\xc7<\xbe\xf0]\xbd\xde\x87\xf73...
 
 **Recommended action:** Isolate `.102` — its presence indicates an attacker already has a foothold on that host and is attempting lateral movement. Patch or replace the FTP daemons on all targeted servers regardless of the failure; the campaign failing does not mean the vulnerability is absent.
 
-📷 `screenshots/nop-sled.png`
+📷 `screenshots/`[nop-sled.png](screenshots/nop-sled.png)![nop-sled.png](screenshots/nop-sled.png)
 
 ### 🟠 Finding 2 — Successful data exfiltration via anonymous access
 
@@ -209,8 +209,8 @@ Compare against Finding 1 — `.102` fired continuously at nine hosts with no he
 
 **Recommended action:** Disable anonymous FTP on `192.168.25.101` immediately. Treat the patient database as breached and initiate the corresponding disclosure process. Rotate every credential appearing in `config.py`. Investigate `.94` for how it knew to target this host.
 
-📷 `screenshots/exfil-filelist.png`
-📷 `screenshots/exfil-timeline.png`
+📷 `screenshots/`[exfil-filelist.png](screenshots/exfil-filelist.png)![exfil-filelist.png](screenshots/exfil-filelist.png)
+📷 `screenshots/`[exfil-timeline.png](screenshots/exfil-timeline.png)![exfil-timeline.png](screenshots/exfil-timeline.png)
 
 ### 🟢 Finding 3 — Anomalies investigated and ruled out
 
