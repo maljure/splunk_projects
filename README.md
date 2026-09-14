@@ -35,12 +35,9 @@ The MACCDC dataset is a capture from a live red team vs. blue team competition, 
 
 ```
 splunk_projects/
-├── README.md                      # This file
-├── setup/
-│   └── splunk-setup.md            # Install, ingest, and field extraction notes
-├── DNS_Analysis/
-│   ├── README.md                  # Full DNS investigation writeup
-│   ├── queries.md                 # All SPL searches used
+├── README.md                   # This file
+├── DNS_Analysis/               
+│   ├── Analysis.md             # Full DNS investigation writeup
 │   └── screenshots/
 └── HTTP_Analysis/              # (and so on)
 ```
