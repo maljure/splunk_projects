@@ -85,8 +85,6 @@ MAX_DAYS_AGO = 10951
 REPORT-bro_http = bro_http_fields
 ```
  
-Zeek's native `id.orig_h` / `id.resp_h` names were deliberately remapped to `src_ip` / `dest_ip`. Dotted field names require backtick-quoting in every SPL expression, which becomes an error source across a long analysis.
- 
 📷 `screenshots/field-extraction.png`
  
 ### 2. Method distribution
