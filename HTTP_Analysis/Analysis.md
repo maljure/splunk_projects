@@ -430,22 +430,7 @@ Low, steady rates over 4.5+ hours against a small fixed set of paths. `.202.87` 
 | Nmap NSE Lotus Domino recon | `192.168.202.79` | Failed | Medium |
 | Method fuzzing, WebDAV/XST probing | Multiple | Failed | Low |
 | Scoring infrastructure | `.202.87`, `.202.90` | Benign | Benign |
- 
-**Attack progression observed:**
- 
-```
-07:30  Reconnaissance      Nmap NSE, Lotus Domino path probing
-08:05  Content discovery   DirBuster, 255,362 paths, 100% failure
-09:00  Method enumeration  OPTIONS spikes across multiple hosts
-09:30  Second scan wave    15,195 GET / 5 min
-10:50  Credential attack   116,514 POSTs, 5 servers, 1 hour
-       (throughout)        SQL injection vs 8 servers, basic-auth brute-force
-```
- 
-This is textbook progression: map the target, enumerate its content, probe its inputs, attack its authentication. It is visible in this log **only because the timestamps were fixed** — with every event stacked at index time, none of this sequence exists.
- 
-The dominant characteristic of this capture is failure. Two thirds of all requests returned 404. The single largest campaign achieved a 100% failure rate. What succeeded — or may have — was quieter: injection payloads against eight servers and a one-hour credential run that generated less than half the traffic of the scan nobody could have missed.
- 
+
 ---
  
 ## Lessons Learned
