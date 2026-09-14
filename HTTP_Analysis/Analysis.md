@@ -116,6 +116,7 @@ Three distinct signals fall out of it:
 - **Scanners naming themselves.** `NESSUS` is sent deliberately to observe how the server handles an unknown verb.
 - **Method fuzzing.** `CFFWFE`, `RWXDSY`, `BXNTPG` are random uppercase strings testing whether the server rejects malformed verbs cleanly. Nikto does exactly this.
 - **Non-HTTP traffic.** `GNUTELLA`, `Secure`, `some`, and the 391 unparseable events. The 8,605 `400 Bad Request` responses in the next section corroborate this from the server's side.
+
 📷 `screenshots/method-distribution.png`
  
 ### 3. Status codes — and the number that reframed the dataset
