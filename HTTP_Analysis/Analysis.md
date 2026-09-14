@@ -85,7 +85,7 @@ MAX_DAYS_AGO = 10951
 REPORT-bro_http = bro_http_fields
 ```
  
-📷 `screenshots/field-extraction.png`
+📷 `screenshots/`[field-extraction.png](screenshots/field-extraction.png)![field-extraction.png](screenshots/field-extraction.png)
  
 ### 2. Method distribution
  
@@ -117,8 +117,8 @@ Three distinct signals fall out of it:
 - **Method fuzzing.** `CFFWFE`, `RWXDSY`, `BXNTPG` are random uppercase strings testing whether the server rejects malformed verbs cleanly. Nikto does exactly this.
 - **Non-HTTP traffic.** `GNUTELLA`, `Secure`, `some`, and the 391 unparseable events. The 8,605 `400 Bad Request` responses in the next section corroborate this from the server's side.
 
-📷 `screenshots/method-distribution.png`
- 
+📷 `screenshots/`[method-distribution.png](screenshots/method-distribution.png)![method-distribution.png](screenshots/method-distribution.png)
+
 ### 3. Status codes — and the number that reframed the dataset
  
 ```
@@ -163,6 +163,8 @@ index=http_log sourcetype=bro_http status_code=404
 Requesting 306,169 distinct paths that do not exist, each essentially once, is not browsing, broken links, or a misconfigured application. It is dictionary enumeration, and it is the dominant activity in this capture.
  
 📷 `screenshots/404-long-tail.png`
+📷 `screenshots/`[404-long-tail.png](screenshots/404-long-tail.png)![404-long-tail.png](screenshots/404-long-tail.png)
+
  
 ### 5. Timeline
  
@@ -181,7 +183,7 @@ index=http_log sourcetype=bro_http | timechart span=5m count by method limit=5 u
  
 Human traffic ramps and decays. This timeline is a series of rectangles — hard onset, plateau, hard stop — separated by intervals of nothing. Each block is a tool starting and finishing. The 07:30 → 07:35 transition (142 requests to zero) and the 08:15 → 08:20 transition (301 to 40,121) are the clearest examples.
  
-📷 `screenshots/timeline-by-method.png`
+📷 `screenshots/`[timeline-by-method.png](screenshots/timeline-by-method.png)![timeline-by-method.png](screenshots/timeline-by-method.png)
  
 ---
  
@@ -222,7 +224,7 @@ Same source, same target, same window. DirBuster's User-Agent is configurable, s
  
 **Recommended action:** Low urgency on the target — nothing was found. Higher urgency on the source: `192.168.203.63` is running offensive tooling and should be isolated and examined. Consider rate-limiting and 404-threshold alerting on the web tier; a host generating 37 failed requests per second for two hours is trivially detectable and was not stopped.
  
-📷 `screenshots/dirbuster-ua.png`
+📷 `screenshots/`[dirbuster.png](screenshots/dirbuster.png)![dirbuster.png](screenshots/dirbuster.png)
  
 ### 🔴 Finding 2 — SQL injection campaign across eight servers
  
@@ -257,6 +259,8 @@ This also explains this host's earlier statistics — 128,456 requests across on
 **Recommended action:** Isolate `.202.110`. Review application logs and database logs on all eight targets for the corresponding time window — that is where success or failure will be visible. Parameterised queries are the fix; input filtering for `'` and `1=1` is not.
  
 📷 `screenshots/sqli-payloads.png`
+📷 `screenshots/`[sqli-payloads.png](screenshots/sqli-payloads.png)![sqli-payloads.png](screenshots/sqli-payloads.png)
+
  
 ### 🟠 Finding 3 — High-volume automated POST campaign against `/main.php`
  
@@ -299,7 +303,8 @@ index=http_log sourcetype=bro_http src_ip="192.168.202.102" uri="/main.php" meth
 | Response body stdev | 622 (8%) | **Near-identical response every time** |
  
 The response consistency is the key measurement. It rules out a webshell: a backdoor executing commands returns wildly varying output sizes — a directory listing, a file dump, a one-line error. An 8% variance across 116,514 requests means the server returned the same page nearly every time. The request-side variation, bounded but real, is what a form produces when field contents change length between submissions.
- 
+
+📷 `screenshots/`[post-flood-timeline.png](screenshots/post-flood-timeline.png)![post-flood-timeline.png](screenshots/post-flood-timeline.png)
 **The response-size anomaly:**
  
 ```
@@ -327,8 +332,7 @@ The 3,790-byte response — roughly half the normal page — was traced to its s
  
 **Recommended action:** Isolate `.202.102`. Review authentication logs on all five targets for 10:50 – 11:50. Determine what the 3,790-byte response is — that single question likely resolves whether this succeeded. Implement account lockout and rate limiting; 48 login attempts per second should not be possible.
  
-📷 `screenshots/post-flood-timeline.png`
-📷 `screenshots/response-size-anomaly.png`
+📷 `screenshots/`[response-size-anomaly.png](screenshots/response-size-anomaly.png)![response-size-anomaly.png](screenshots/response-size-anomaly.png)
  
 ### 🟠 Finding 4 — Basic-auth credential brute-force
  
