@@ -87,13 +87,6 @@ REPORT-bro_http = bro_http_fields
  
 Zeek's native `id.orig_h` / `id.resp_h` names were deliberately remapped to `src_ip` / `dest_ip`. Dotted field names require backtick-quoting in every SPL expression, which becomes an error source across a long analysis.
  
-Loaded via CLI rather than the web uploader:
- 
-```bash
-/opt/splunk/bin/splunk add oneshot http_sample.log \
-  -index http_log -sourcetype bro_http -host maccdc2012
-```
- 
 📷 `screenshots/field-extraction.png`
  
 ### 2. Method distribution
