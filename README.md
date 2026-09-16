@@ -27,9 +27,7 @@ The MACCDC dataset is a capture from a live red team vs. blue team competition, 
 | 02 | [HTTP](./HTTP_Analysis/Analysis.md) | Web attacks, suspicious user agents, C2 over HTTP | ✅ Complete |
 | 03 | [FTP](./FTP_Analysis/Analysis.md) | Credential use, file transfers, anonymous access | ✅ Complete |
 | 04 | SSH | Brute force, lateral movement | 🔜 Working On |
-| 05 | SMNP | Email communication, timestamps, email subjects | 🔜 Planned |
-| 06 | Tunnel | GRE, IPv4, IPv6 | 🔜 Planned |
-| 07 | DHCP | IP addresses, lease durations, client requests, server responses | 🔜 Planned |
+| 05 | DHCP | IP addresses, lease durations, client requests, server responses | 🔜 Planned |
 
 ## Repository Structure
 
