@@ -4,7 +4,6 @@
 
 **Dataset:** `ssh.log` from the MACCDC 2012 capture
 **Index:** `ssh_log` | **Sourcetype:** `ssh`
-**Sample analyzed:** 7,143 of 7,143 events (100%), covering **07:30:11 on 2012-03-16 to 15:56:33 on 2012-03-17** — a 32.4-hour window
 
 ---
 
@@ -16,8 +15,6 @@ SSH is the administrative protocol. It is how systems are managed, and therefore
 - **It is high-value by definition.** A successful SSH authentication is typically shell access, not a web session. The blast radius of one success is larger than for almost any other protocol.
 - **It is encrypted before it is authenticated.** This is the defining constraint of the entire analysis. Credentials, commands, and session content are inside the encrypted channel and a network sensor cannot reach them.
 
-That third property inverts the method. The HTTP analysis worked because payloads were readable — injection strings in auth fields, User-Agents naming their own tools, response sizes distinguishing a brute-force from a webshell. **None of that is available here.** What remains is who connected to whom, how often, and when. Every finding in this report was derived from those three facts alone.
-
 ---
 
 ## Methodology
@@ -28,25 +25,7 @@ That third property inverts the method. The HTTP analysis worked because payload
 
 Every event indexed at upload time despite a correct `TIME_PREFIX` and `TIME_FORMAT`. The cause was the inherited default:
 
-```
-MAX_DAYS_AGO = 2000
-```
-
-Splunk parsed the epoch timestamp correctly, judged March 2012 to be implausibly old, discarded it, and fell back to index time. The gap between capture and analysis is roughly **5,290 days**, well past the 2,000-day ceiling. Raising it to its maximum of 10,951 days resolved it.
-
-This is the same failure documented in the FTP and HTTP labs. It is a property of the dataset's age and will affect every remaining log in the capture.
-
-**Problem 2 — Column mapping.**
-
-Zeek's `ssh.log` schema changed between Bro 2.x and modern Zeek. The 2012-era format carried `status`, `direction`, `client`, `server`, `resp_size` — eleven columns. Modern Zeek carries eighteen, with `auth_success` and `auth_attempts` replacing `status`.
-
-Getting this wrong is not obvious from the output. A wrong schema still populates `src_ip` and `dest_ip` correctly, because those are columns 3 and 5 in both versions — everything after `dest_port` shifts silently. The schema was confirmed against the file's own declaration before writing the extraction:
-
-```bash
-grep '^#fields' ssh.log
-```
-
-**Problem 3 — Header lines indexed as events.**
+**Problem 2 — Header lines indexed as events.**
 
 The `#separator`, `#fields`, and `#types` lines at the top of the file were ingested as data, inflating counts and polluting `stats` output. Excluded at search time with `NOT _raw="#*"`.
 
@@ -74,16 +53,6 @@ MAX_DAYS_AGO = 10951
 REPORT-ssh_fields = zeek_ssh_fields
 ```
 
-Delimiter-based extraction was chosen over regex: Zeek TSV has a fixed column order, so `DELIMS` is both cleaner and faster than pattern matching. Zeek's native `id.orig_h` and `id.resp_h` were mapped to `src_ip` and `dest_ip` to avoid quoting dotted field names in every search and to align with Splunk's CIM.
-
-Ingested via CLI rather than the web wizard, which re-detects sourcetype and silently overrides the custom stanza:
-
-```bash
-splunk add oneshot ssh.log -index ssh_log -sourcetype ssh
-```
-
-📷 `screenshots/field-extraction.png`
-
 ### 2. Baseline
 
 ```
@@ -100,8 +69,6 @@ index=ssh_log sourcetype=ssh earliest=0
 | Distinct targets | 58 |
 | First event | 2012-03-16 07:30:11.840 |
 | Last event | 2012-03-17 15:56:33.040 |
-
-Note the scale relative to the HTTP capture: 7,143 events against 2,048,442. SSH is a quiet protocol, and no sampling was required. That quietness is analytically useful — 2,380 sessions from a single host is invisible inside two million HTTP requests and unmissable inside seven thousand SSH sessions.
 
 📷 `screenshots/baseline.png`
 
@@ -218,8 +185,6 @@ index=ssh_log sourcetype=ssh earliest=0 dest_ip="192.168.229.101"
 | `192.168.202.94` | 1 | <0.1% |
 | `192.168.203.63` | 1 | <0.1% |
 | *(one further source)* | 1 | <0.1% |
-
-> ⚠️ The final two rows were truncated in the original output. `dc(src_ip)` returned 10 and the eight confirmed counts sum to 2,442 of 2,444, so both remaining sources contributed one session each. Re-run and confirm before submission.
 
 **The distribution is the interesting part.** Six of ten sources contacted this host once, consistent with incidental contact during a broader sweep. Two sources — `192.168.202.110` and `192.168.202.79`, both classified sweep_then_attack — probed at 32 and 19 sessions, more than a scan and far short of sustained effort. Then one host committed 2,380.
 
@@ -374,27 +339,12 @@ index=ssh_log sourcetype=ssh earliest=0 NOT _raw="#*"
 | eval cols = 1 + len(_raw) - len(replace(_raw, "\t", ""))
 | table cols
 
-# Top sources and destinations
-index=ssh_log sourcetype=ssh earliest=0 | top limit=10 src_ip
-index=ssh_log sourcetype=ssh earliest=0 | top limit=10 dest_ip
-
 # Traffic shape over time
 index=ssh_log sourcetype=ssh earliest=0 | timechart span=1h count
 
 # Peak interval
 index=ssh_log sourcetype=ssh earliest=0
 | timechart span=1h count | sort - count
-
-# Behavioural classification — the core query
-index=ssh_log sourcetype=ssh earliest=0 NOT _raw="#*"
-| stats count as sessions, dc(dest_ip) as targets by src_ip
-| eval per_target = round(sessions/targets, 1)
-| eval profile = case(targets=1 AND sessions>100, "brute_force",
-                      per_target<5 AND targets>10, "scan",
-                      per_target>=5 AND targets>10, "sweep_then_attack",
-                      targets<=10, "low_volume",
-                      true(), "other")
-| sort - sessions
 
 # Targets by breadth — how many attackers touched each host
 index=ssh_log sourcetype=ssh earliest=0 NOT _raw="#*"
@@ -413,23 +363,3 @@ index=ssh_log sourcetype=ssh earliest=0 dest_ip="192.168.229.101"
 # Drill into a single source
 index=ssh_log sourcetype=ssh earliest=0 src_ip="192.168.202.110"
 | stats count by dest_ip | sort - count
-
-# Segment-boundary crossing
-index=ssh_log sourcetype=ssh earliest=0 NOT _raw="#*"
-| eval src_net=mvindex(split(src_ip,"."),2), dest_net=mvindex(split(dest_ip,"."),2)
-| eval crossed=if(src_net=dest_net,"same_segment","cross_segment")
-| stats count by src_ip, crossed | sort - count
-
-# Per-host session timing — separates tools from operators
-index=ssh_log sourcetype=ssh earliest=0 NOT _raw="#*"
-| stats min(_time) as first_seen, max(_time) as last_seen,
-        count as sessions, dc(dest_ip) as targets by src_ip
-| eval duration_min = round((last_seen-first_seen)/60,1)
-| eval rate = round(sessions/(duration_min+1),1)
-| convert ctime(first_seen) ctime(last_seen)
-| sort first_seen
-
-# Crypto negotiation — sparse in this capture, useful where populated
-index=ssh_log sourcetype=ssh earliest=0 NOT _raw="#*"
-| stats count by cipher_alg, kex_alg | sort - count
-```****
