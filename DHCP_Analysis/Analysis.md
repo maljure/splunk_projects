@@ -22,41 +22,10 @@ DHCP is one of the quietest protocols on a network, and that is exactly what mak
 
 ### 1. Ingestion
 
-Three problems had to be solved before the first analytical query could run.
-
-**Problem 1 — Header lines indexed as events.**
-
-Bro logs begin with a block of metadata lines (`#separator`, `#fields`, `#types`, and so on). Left alone, Splunk indexes each of these as an event with no timestamp and no usable fields. They were routed to the `nullQueue` at index time so they never reach the index:
-
-```ini
-[bro_dhcp_drop_comments]
-REGEX = ^#
-DEST_KEY = queue
-FORMAT = nullQueue
-```
-
-**Problem 2 — Timestamps too old for Splunk's defaults.**
-
-Splunk's default `MAX_DAYS_AGO` is 2,000 days (about 5.5 years). A March 2012 capture is well past that, so Splunk rejects the correct timestamp and substitutes the ingest time. Every event would appear to have happened on the day of upload. Raising the limit to its maximum fixed it:
-
-```ini
-MAX_DAYS_AGO = 10951
-```
-
-**Problem 3 — Sourcetype name vs. stanza name.**
-
-The configuration was first written under a `[bro:dhcp]` stanza, while the data was uploaded with the sourcetype `dhcp`. Splunk applies a props.conf stanza only when its name matches the sourcetype exactly, so none of the settings were being used. Renaming the stanza to `[dhcp]` and confirming with btool resolved it:
-
-```
-splunk btool props list dhcp --debug
-```
-
-**Final configuration.**
-
 `transforms.conf`:
 
 ```ini
-[bro_dhcp_drop_comments]
+[dhcp_transform]
 REGEX = ^#
 DEST_KEY = queue
 FORMAT = nullQueue
@@ -78,11 +47,9 @@ MAX_TIMESTAMP_LOOKAHEAD = 20
 TZ = UTC
 MAX_DAYS_AGO = 10951
 MAX_DAYS_HENCE = 2
-TRANSFORMS-drop_comments = bro_dhcp_drop_comments
+TRANSFORMS = dhcp_transform
 REPORT-bro_dhcp_fields = bro_dhcp_fields
 ```
-
-The Bro dotted field names (`id.orig_h`, `id.resp_h`) were renamed to `src_ip` and `dest_ip` to make searches simpler and to align with Splunk's Common Information Model.
 
 ![Field extraction](screenshots/field-extraction.png)
 
