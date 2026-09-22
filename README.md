@@ -27,7 +27,7 @@ The MACCDC dataset is a capture from a live red team vs. blue team competition, 
 | 02 | [HTTP](./HTTP_Analysis/Analysis.md) | Reconnaissance, Content discovery, Injection attempts | ✅ Complete |
 | 03 | [FTP](./FTP_Analysis/Analysis.md) | Exploitation, Unauthorized access, Data exfiltration | ✅ Complete |
 | 04 | [SSH](./SSH_Analysis/Analysis.md) | Reconnaissance, Lateral movement, Credential attacks | ✅ Complete |
-| 05 | DHCP | IP addresses, lease durations, client requests, server responses | 🔜 Planned |
+| 05 | DHCP | IP addresses, lease durations, client requests, server responses | 🔜 Working On |
 
 ## Repository Structure
 
