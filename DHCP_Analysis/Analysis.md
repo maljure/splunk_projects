@@ -51,7 +51,7 @@ TRANSFORMS = dhcp_transform
 REPORT-bro_dhcp_fields = bro_dhcp_fields
 ```
 
-![Field extraction](screenshots/field-extraction.png)
+
 
 ### 2. Client activity
 
@@ -73,7 +73,7 @@ The distribution is not a curve, it is a cliff. One client sits at 744 events an
 
 Several MACs begin with `00:0c:29`, the prefix VMware assigns to virtual network adapters. At least six virtual machines appear in the data, which is consistent with a competition environment built on virtualized infrastructure.
 
-![Client activity](screenshots/client-activity.png)
+
 
 ### 3. Timeline
 
@@ -91,7 +91,7 @@ The network has a hard on/off schedule. Activity starts at 07:00, stops at 18:00
 
 The busiest hours were 08:00 on day 1 (108 events) and 14:00 on day 2 (117 events). The quietest active hour was 10:00 on day 1 (35 events). Section 4 shows that the busiest hours are misleading until the dominant client is removed.
 
-![Timeline](screenshots/timeline.png)
+
 
 ### 4. Removing the dominant client
 
@@ -118,7 +118,7 @@ Two things change once the noise is removed:
 
 The 10:00 dip on day 1 affected everyone: the dominant client and the rest of the network both dropped to roughly a third of their normal rate in the same hour. A network-wide dip across unrelated devices points to an infrastructure event (the DHCP server, a switch, or the capture sensor), not to any one client.
 
-![Timeline without dominant client](screenshots/timeline-filtered.png)
+
 
 ---
 
@@ -153,7 +153,7 @@ The hourly chart is flat: 40 – 47 requests every hour, both days, with no ramp
 
 **Recommended action:** Identify the host behind 192.168.202.76 and review its network configuration and running services. Pull a packet capture of its DHCP traffic to see the exact message types it is sending (see Lessons Learned).
 
-![Dominant client](screenshots/dominant-client.png)
+
 
 ### 🟡 Finding 2 — Address churn on a single client
 
@@ -194,7 +194,6 @@ index=dhcp_log sourcetype=dhcp assigned_ip="192.168.202.133" | stats count by ma
 
 **Recommended action:** Low priority. If the device is wireless, check signal and roaming behaviour for the 13:00 – 16:00 window on day 1. Keep in mind that any activity from .124, .130, or .132 on day 1 belongs to this device, not to whatever held those addresses later.
 
-![Address churn](screenshots/address-churn.png)
 
 ### 🟡 Finding 3 — Clients holding more than one address
 
@@ -223,7 +222,6 @@ Ten clients changed address at least once. Nine of them changed exactly once, wh
 
 **Recommended action:** When correlating these IPs against other logs, always check which MAC held the address at the time of the event. For these ten clients, "the IP" and "the device" are not the same thing across the whole capture.
 
-![Multiple IPs](screenshots/multiple-ips.png)
 
 ### 🟢 Finding 4 — Anomalies investigated and ruled out
 
